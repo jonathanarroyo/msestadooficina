@@ -1,12 +1,5 @@
 package com.bdg.dashboard;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -19,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class MsestadooficinaApplication extends SpringBootServletInitializer {
 
-	public static final String topicExchangeName = "dashboard-exchange";
+	/*public static final String topicExchangeName = "dashboard-exchange";
 
 	public static final String queueName = "dashboard-queue";
 
@@ -50,7 +43,7 @@ public class MsestadooficinaApplication extends SpringBootServletInitializer {
 	@Bean
 	public Jackson2JsonMessageConverter convert() {
 	    return new Jackson2JsonMessageConverter();
-	}
+	}*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(MsestadooficinaApplication.class, args);

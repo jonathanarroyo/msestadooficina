@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import com.bdg.dashboard.MsestadooficinaApplication;
+import com.bdg.dashboard.RabbitMqClient;
 import com.bdg.dashboard.model.CustomMessage;
 
 @Component
@@ -23,7 +23,7 @@ public class Producer {
 	public void sendMessage(CustomMessage mensaje) {    	    
     	System.out.println("Enviando mensaje... " + mensaje);
 		CompletableFuture.runAsync(() ->
-		rabbitTemplate.convertAndSend(MsestadooficinaApplication.topicExchangeName, MsestadooficinaApplication.routeKey , mensaje));
+		rabbitTemplate.convertAndSend(RabbitMqClient.topicExchangeName, RabbitMqClient.routeKey , mensaje));
     }
     
    

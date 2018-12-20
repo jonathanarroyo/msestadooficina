@@ -3,22 +3,22 @@
  */
 package com.bdg.dashboard;
 
-import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
+import com.mongodb.MongoClientURI;
 
 /**
  * @author programador
@@ -44,23 +44,38 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	private String database;
 	@Value("${spring.data.mongodb.password}")
 	private String password;
+	@Value("${spring.data.mongodb.uri}")
+	private String mongoURI;
 
 	@Autowired
 	private Environment env;
 
 	@Override
 	public MongoClient mongoClient() {
-		log.info("Conectando a MongoDb host:" + host + ", username:" + username + ", database:" + database + ", password:"
-				+ password);
-		return new MongoClient(Collections.singletonList(new ServerAddress(host, port)), Collections
-				.singletonList(MongoCredential.createCredential(username, database, password.toCharArray())));
+		log.info("Conectando a MongoDb host:" + host + ", username:" + username + ", database:" + database
+				+ ", password:" + password);
+		log.info("Conectando a Mongo URI host:" + mongoURI);
+
+		// return new MongoClient(Collections.singletonList(new ServerAddress(host,
+		// port)), Collections
+		// .singletonList(MongoCredential.createCredential(username, database,
+		// password.toCharArray())));
 
 		// return new MongoClient(host, port);
+		MongoClientURI uri = new MongoClientURI(mongoURI);
+		return new MongoClient(uri);
 	}
 
 	@Override
 	protected String getDatabaseName() {
-		return env.getProperty("spring.data.mongodb.database");
+		return database;
+	}
+
+	@Override
+	public MongoTemplate mongoTemplate() throws Exception {
+		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory(), mappingMongoConverter());
+		return mongoTemplate;
+
 	}
 
 	@Override

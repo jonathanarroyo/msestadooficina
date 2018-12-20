@@ -33,6 +33,7 @@ import com.mongodb.ServerAddress;
 public class MongoConfig extends AbstractMongoConfiguration {
 
 	private final Logger log = LoggerFactory.getLogger(MongoConfig.class);
+
 	@Value("${spring.data.mongodb.host}")
 	private String host;
 	@Value("${spring.data.mongodb.port}")
@@ -49,12 +50,13 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	public MongoClient mongoClient() {
-		return new MongoClient(Collections.singletonList(new ServerAddress(host, port)),
-				Collections.singletonList(MongoCredential.createCredential(username, database, password.toCharArray())));
+		log.info("Conectando a MongoDb host:" + host + ", username:" + username + ", database:" + database + ", password:"
+				+ password);
+		return new MongoClient(Collections.singletonList(new ServerAddress(host, port)), Collections
+				.singletonList(MongoCredential.createCredential(username, database, password.toCharArray())));
 
-		//return new MongoClient(host, port);
+		// return new MongoClient(host, port);
 	}
-
 
 	@Override
 	protected String getDatabaseName() {

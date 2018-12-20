@@ -31,14 +31,14 @@ public class RabbitMqClient {
 	@Value("${spring.rabbitmq.username}")
 	private String username;
 	
-	@Value("${spring.rabbitmq.port}")
-	private String port;
+	@Value("${spring.rabbitmq.password}")
+	private String password;
 	
 	@Bean
 	public ConnectionFactory connectionFactory() throws IOException {
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
 		connectionFactory.setUsername(username);
-		connectionFactory.setPassword(port);
+		connectionFactory.setPassword(password);
 		
 		return connectionFactory;
 	}
